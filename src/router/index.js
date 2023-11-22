@@ -10,13 +10,14 @@ import UserLayout from '@/views/User_Layout.vue'
 
 import CheckInfo from '@/views/Enterprise/CheckInfo.vue'
 import DataReport from '@/views/Enterprise/DataReport.vue'
-import Deadline from '@/views/Enterprise/Deadline.vue'
+import Messages from '@/views/Enterprise/Messages.vue'
 import EnterpriseInfo from '@/views/Enterprise/EnterpriseInfo.vue'
 
 import DataReview from '@/views/Province/DataReview.vue'
 import InfoEditDraft from '@/views/Province/InfoEditDraft.vue'
-import Message from '@/views/Province/Message.vue'
+import MessageManagement from '@/views/Province/MessageManagement.vue'
 import Statistic from '@/views/Enterprise/Statistic.vue'
+import RecordManagement from '@/views/Province/RecordManagement.vue'
 
 import UserManage from '@/views/Admin/UserManage.vue'
 
@@ -28,7 +29,7 @@ const routes = [
         component: EnterpriseLayout,children:[
             {path:'/enterprise/checkinfo',component: CheckInfo},
             {path:'/enterprise/report', component: DataReport},
-            {path:'/enterprise/deadline', component: Deadline},
+            {path:'/enterprise/msg', component: Messages},
             {path:'/enterprise/info',component: EnterpriseInfo},
             { path:'/enterprise/stats', component: Statistic}
         ] 
@@ -38,7 +39,8 @@ const routes = [
         component: ProvinceLayout, children:[
             { path:'/province/review', component: DataReview},
             { path:'/province/infoedit', component: InfoEditDraft},
-            { path:'/province/msg', component: Message},
+            { path:'/province/msg', component: MessageManagement},
+            { path:'/province/record', component: RecordManagement}
             
         ]
     },

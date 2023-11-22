@@ -31,11 +31,11 @@ import avatar from '@/assets/default.png'
                     </el-icon>
                     <span>数据上报</span>
                 </el-menu-item>
-                <el-menu-item index="/enterprise/deadline">
+                <el-menu-item index="/enterprise/msg">
                     <el-icon>
                         <Promotion />
                     </el-icon>
-                    <span>截止时间</span>
+                    <span>消息列表</span>
                 </el-menu-item>
                 <el-menu-item index="/enterprise/info">
                     <el-icon>
@@ -49,12 +49,7 @@ import avatar from '@/assets/default.png'
                     </el-icon>
                     <span>统计数据</span>
                 </el-menu-item>
-                <el-menu-item>
-                    <el-icon>
-                        <Promotion />
-                    </el-icon>
-                    <span>消息列表</span>
-                </el-menu-item>
+
                 <!-- <el-sub-menu >
                     <template #title>
                         <el-icon>

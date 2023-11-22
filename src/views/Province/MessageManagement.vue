@@ -1,4 +1,5 @@
 <script setup>
+//import axios from 'axios';
 //发布通知页面
 import {
     Edit,
@@ -8,14 +9,20 @@ import {
 import { ref } from 'vue'
 
 import {Plus} from '@element-plus/icons-vue'
+import axios from 'axios';
 //控制抽屉是否显示
 const visibleDrawer1 = ref(false)
 //添加表单数据模型
 const newnoticeModel = ref({
+    id: '',
     title: '',
     content:'',
-    state:''
+    state:'',
+    released_time: ''
+    
 })
+
+
 
 //通知列表数据模型
 const notice = ref([
@@ -55,7 +62,30 @@ const onSizeChange = (size) => {
 const onCurrentChange = (num) => {
     pageNum.value = num
 }
+
+let noticeResponsed = [];
+axios({
+    method: 'GET',
+    url: 'http://localhost:8080/province/notice/getall'
+}).then(response => {
+    //console.log(JSON.stringify(response.data));
+    noticeResponsed = response.data;
+    //console.log(JSON.stringify(response.data));
+}).catch(err => {
+    alert(err);
+});
+
+//notice 和 noticeResponsed 到底什么区别？怎么才能够显示noticeResponsed?
+
+
+
+
+
 </script>
+
+
+
+
 <template>
     <el-card class="page-container">
         <template #header>
@@ -68,12 +98,12 @@ const onCurrentChange = (num) => {
         </template>
        
         <!-- 通知列表 -->
-        <el-table :data="notice" style="width: 100%">
+        <el-table :data="noticeResponsed" style="width: 100%">
             <el-table-column label="标题" width="400" prop="title" ></el-table-column>
             <el-table-column label="发布时间" prop="createTime"> </el-table-column>
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
-                    <el-button :icon="Edit" circle plain type="primary" > </el-button>
+                    <!-- <el-button :icon="Edit" circle plain type="primary" > </el-button> -->
                     <el-button :icon="Delete" circle plain type="danger"></el-button>
                 </template>
             </el-table-column>
@@ -101,8 +131,19 @@ const onCurrentChange = (num) => {
                 </el-form-item>
                 <el-form-item>发布单位: 云南省</el-form-item>
                 <el-form-item>
-                    <el-button type="primary">发布</el-button>
-                    <el-button type="info">取消</el-button>
+                    <el-button type="primary" @click="
+                    axios({
+                        method: 'POST',
+                        url: 'http://localhost:8080/province/notice/release',
+                        data: newnoticeModel
+                    }).then(response => {
+                        console.log(JSON.stringify(response.data));
+                    }).catch(err => {
+                        alert(err);
+                    });
+                    
+                    ">发布</el-button>
+                    <el-button type="info">重置</el-button>
                 </el-form-item>
             </el-form>
     </el-drawer>

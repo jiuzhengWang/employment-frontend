@@ -69,7 +69,7 @@ import avatar from '@/assets/default.png'
                     </el-icon>
                     <span>多维分析</span>
                 </el-menu-item>
-                <el-menu-item index="/province/msg">
+                <el-menu-item index="/province/record">
                     <el-icon>
                         <Promotion />
                     </el-icon>

@@ -6,9 +6,9 @@
       <div class="header">
         <span>审核备案</span>
         <div class="extra">
-          <el-button type="success" @click="">保存</el-button>
+          <el-button type="success" @click="">提交备案</el-button>
 <!--          提交更改后的内容-->
-          <el-button type="danger" @click="">取消</el-button>
+          <!-- <el-button type="danger" @click="">取消</el-button> -->
 <!--          还原更改，即从服务器获取一次数据覆盖做出的更改。-->
         </div>
       </div>

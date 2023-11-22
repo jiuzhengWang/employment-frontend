@@ -1,27 +1,55 @@
 <script setup>
-//上报时限页面
+//查看通知页面
 import {
-    Edit
+    Edit,
+    Check,
+    Search
+
 } from '@element-plus/icons-vue'
 
 import { ref } from 'vue'
 
+import {Plus} from '@element-plus/icons-vue'
 
+import axios from "axios"
 
+const visibleDrawer1 = ref(false)
+
+const newnoticeModel = ref({
+    id:'',
+    title: '',
+    content:'',
+    state:'',
+    released_time: ''
+})
 
 //通知列表数据模型
-const deadlines = ref([
+const messages = ref([
     {
-        "deadline":"2023-11-11 12:00:00",       
+        "title": "雨季来临",
+        "released_time":"2023-11-11 12:00:00",
+        "content": "下雨啦！！！"      
     },
     {
-        "deadline":"2023-11-11 12:00:00",       
-    },
-    {
-        "deadline":"2023-11-11 12:00:00",       
+        "title": "旱季来临",
+        "released_time":"2023-11-11 12:00:00",
+        "content": "出太阳啦！"        
     }
   
 ])
+
+//向后端请求所有通知
+axios({
+    method: 'GET',
+    url: 'http://localhost:8080/enterprise/notice/getall'
+}).then(response => {
+    console.log(JSON.stringify(response.data));
+}).catch(err => {
+    alert(err);
+});
+
+
+
 
 
 
@@ -43,19 +71,21 @@ const onCurrentChange = (num) => {
     <el-card class="page-container">
         <template #header>
             <div class="header">
-                <span>通知中心</span>
-                <div class="extra">
+                <span>消息中心</span>
+                <!-- <div class="extra">
                     <el-button type="primary" >新增调查期</el-button>
-                </div>
+                </div> -->
             </div>
         </template>
        
         <!-- 通知列表 -->
-        <el-table :data="deadlines" style="width: 100%">
-            <el-table-column label="时限"  prop="deadline" ></el-table-column>
-            <el-table-column label="操作" width="100">
+        <el-table :data="messages" style="width: 100%">
+            <el-table-column label="标题"  prop="title" ></el-table-column>
+            <el-table-column label="发布时间"  prop="released_time" ></el-table-column>
+            <el-table-column label="操作" width="200">
                 <template #default="{ row }">
-                    <el-button :icon="Edit" circle plain type="primary" > </el-button>
+                    <!-- 显示具体通知 -->
+                    <el-button :icon="Search"  type="primary" @click="visibleDrawer1 = true"> 详细信息 </el-button>
                 </template>
             </el-table-column>
             <template #empty>
@@ -68,6 +98,19 @@ const onCurrentChange = (num) => {
             @current-change="onCurrentChange" style="margin-top: 20px; justify-content: flex-end" />
     </el-card>
 
+    <el-drawer v-model="visibleDrawer1" title="详细信息" direction="rtl" size="50%">
+            <!-- 添加文章表单 -->
+            <el-form :model="newnoticeModel" label-width="100px" >
+                <el-form-item label="标题" >
+                    <el-input v-model="newnoticeModel.title" disabled></el-input>
+                </el-form-item>
+                
+                <el-form-item label="通知内容">
+                    <el-input v-model="newnoticeModel.content" :autosize="{ minRows: 2, maxRows: 10 }" type="textarea" disabled />
+                </el-form-item>
+                <!-- <el-form-item>发布单位: 云南省</el-form-item> -->
+            </el-form>
+    </el-drawer>
 
 
 </template>

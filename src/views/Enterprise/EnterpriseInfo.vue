@@ -1,4 +1,6 @@
 <template>
+<el-card class="page-container">
+
     <div class="company-info">
         <h1>企业信息</h1>
         <table class="info-table">
@@ -175,6 +177,7 @@
         <br>
         <button @click="toggleEditing" class="save-button">{{ editing ? '保存' : '编辑' }}</button>
     </div>
+</el-card>
 </template>
 
 <!-- 省略其他代码 -->
