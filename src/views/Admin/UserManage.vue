@@ -47,6 +47,10 @@ const options = [
   {
     value: '市',
     label: '市',
+  },
+  {
+    value: '省',
+    label: '省'
   }
 ]
 
@@ -125,9 +129,17 @@ const onCurrentChange = (num) => {
                 <el-form-item>
                     <el-button type="primary" @click="
                     if (newuser.password1 != newuser.password2) {
-                        console.log('密码bu');
+                        console.log('两次输入的密码不一致！');
+                        //alert('两次输入的密码不一致！');
                     } else {
-                        let type = newuser.usertypeSelect == '企业'? 1: 0;
+                        let type = -1;
+                        if(newuser.usertypeSelect=='企业'){
+                            type = 0;
+                        } else if(newuser.usertypeSelect=='市'){
+                            type = 1;
+                        } else {
+                            type = 2;
+                        }
                         axios({ method: 'POST',
                                 url: 'http://localhost:8080/user/register',
                                 data: {
@@ -136,8 +148,16 @@ const onCurrentChange = (num) => {
                                     userType: type
                                 }
                             }).then(response=>{
-                                console.log(response.data)
-                                console.log('成功');
+                                console.log(response);
+                                if(response.data.data==true){
+                                    //alert('注册成功！');
+                                    
+                                    console.log('注册成功！');
+                                }
+                                else{
+                                    //alert('该用户已被注册！');
+                                    console.log('该用户已经被注册！');
+                                }
                             }).catch(err => {
                                 console.log(err);
                             });

@@ -16,11 +16,6 @@ import axios from "axios"
 const visibleDrawer1 = ref(false)
 
 const newnoticeModel = ref({
-    id:'',
-    title: '',
-    content:'',
-    state:'',
-    released_time: ''
 })
 
 //通知列表数据模型
@@ -42,10 +37,11 @@ const messages = ref([
 const noticeResponsed = ref([]);
 axios({
     method: 'GET',
-    url: 'http://localhost:8080/enterprise/notice/getall'
+    url: 'http://localhost:8080/province/show-all-notice'
 }).then(response => {
-    console.log(JSON.stringify(response.data.data));
-    noticeResponsed.value=response.data.data;
+    //console.log(JSON.stringify(response.data));
+    console.log(response.data.data[0]);
+    noticeResponsed.value = response.data.data;
 }).catch(err => {
     alert(err);
 });
@@ -98,7 +94,17 @@ const onCurrentChange = (num) => {
             <el-table-column label="操作" width="200">
                 <template #default="{ row }">
                     <!-- 显示具体通知 -->
-                    <el-button :icon="Search"  type="primary" @click="visibleDrawer1 = true"> 详细信息 </el-button>
+                    <el-button :icon="Search"  type="primary" @click="
+                    visibleDrawer1 = true;
+                    //console.log(row);
+                    
+                    newnoticeModel = row;
+                    
+                    
+                    
+                    
+                    
+                    "> 详细信息 </el-button>
                 </template>
             </el-table-column>
             <template #empty>

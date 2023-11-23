@@ -1,5 +1,6 @@
 <script setup>
 import { User, Lock } from '@element-plus/icons-vue'
+import axios from 'axios';
 import { ref } from 'vue'
 //控制注册与登录表单的显示， 默认显示注册
 const isRegister = ref(false)
@@ -38,6 +39,39 @@ const rePasswordValid = (rule, value, callback) => {
 import {useRouter} from 'vue-router'
 const router = useRouter()
 const login = async() => {
+
+    
+    axios({
+        method: 'POST',
+        url: 'http://localhost:8080/user/login',
+        data: {
+            userId: registerData.value.username,
+            password: registerData.value.password
+        }
+    }).then(response=>{
+        console.log(response.data.data);
+        response.data.data.userId
+        //企业用户
+        if(response.data.data.userType == 0){
+            //TODO
+        }
+        //市用户
+        else if(response.data.data.userType == 1) {
+            //TODO
+        }
+        //省用户
+        else {
+            //TODO
+        }
+
+
+
+    }).catch(err => {
+        alert(err);
+    });
+
+
+
     if(registerData.value.username[0]=='E'){
         router.push('/enterprise')
         console.log(registerData.username)

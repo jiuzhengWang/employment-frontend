@@ -18,7 +18,7 @@ const newnoticeModel = ref({
     title: '',
     content:'',
     state:'',
-    released_time: ''
+    date: ''
     
 })
 
@@ -29,20 +29,20 @@ const notice = ref([
     {
         "id":"1",
         "title":"标题1",
-        "createTime":"2023-11-11 12:00:00",
-        "context":"请各单位尽快上报数据"
+        "date":"2023-11-11 12:00:00",
+        "content":"请各单位尽快上报数据"
     },
     {
         "id":"2",
         "title":"标题1",
-        "createTime":"2023-11-11 12:00:00",
-        "context":"456"
+        "date":"2023-11-11 12:00:00",
+        "content":"456"
     },
     {
         "id":"3",
         "title":"标题1",
-        "createTime":"2023-11-11 12:00:00",
-        "context":"789"
+        "date":"2023-11-11 12:00:00",
+        "content":"789"
     }
   
 ])
@@ -69,8 +69,8 @@ axios({
     url: 'http://localhost:8080/province/show-all-notice'
 }).then(response => {
     //console.log(JSON.stringify(response.data));
-    noticeResponsed.value = response.data;
-    console.log(JSON.stringify(response.data));
+    console.log(response.data.data[0]);
+    noticeResponsed.value = response.data.data;
 }).catch(err => {
     alert(err);
 });
@@ -98,9 +98,9 @@ axios({
         </template>
        
         <!-- 通知列表 -->
-        <el-table :data="noticeResponsed.value" style="width: 100%">
+        <el-table :data="noticeResponsed" style="width: 100%">
             <el-table-column label="标题" width="400" prop="title" ></el-table-column>
-            <el-table-column label="发布时间" prop="released_time"> </el-table-column>
+            <el-table-column label="发布时间" prop="date"> </el-table-column>
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
                     <!-- <el-button :icon="Edit" circle plain type="primary" > </el-button> -->
@@ -134,7 +134,7 @@ axios({
                     <el-button type="primary" @click="
                     axios({
                         method: 'POST',
-                        url: 'http://localhost:8080/province/publish-notice/1',
+                        url: 'http://localhost:8080/province/publish-notice/Yunnan',
                         data: newnoticeModel
                     }).then(response => {
                         console.log(JSON.stringify(response.data));
@@ -148,7 +148,7 @@ axios({
                         newnoticeModel.content='';
                         newnoticeModel.title='';
                         newnoticeModel.state='';
-                        newnoticeModel.released_time='';
+                        newnoticeModel.date='';
                     
                     ">重置</el-button>
                 </el-form-item>
