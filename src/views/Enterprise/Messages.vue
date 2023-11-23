@@ -39,14 +39,27 @@ const messages = ref([
 ])
 
 //向后端请求所有通知
+const noticeResponsed = ref([]);
 axios({
     method: 'GET',
     url: 'http://localhost:8080/enterprise/notice/getall'
 }).then(response => {
-    console.log(JSON.stringify(response.data));
+    console.log(JSON.stringify(response.data.data));
+    noticeResponsed.value=response.data.data;
 }).catch(err => {
     alert(err);
 });
+
+//
+// axios({
+//     method: 'GET',
+//     url: 'http://localhost:8080/enterprise/notice/search',
+//     data: ''
+// }).then(response => {
+
+// }).catch(err => {
+//     alert(err);
+// });
 
 
 
@@ -79,7 +92,7 @@ const onCurrentChange = (num) => {
         </template>
        
         <!-- 通知列表 -->
-        <el-table :data="messages" style="width: 100%">
+        <el-table :data="noticeResponsed" style="width: 100%">
             <el-table-column label="标题"  prop="title" ></el-table-column>
             <el-table-column label="发布时间"  prop="released_time" ></el-table-column>
             <el-table-column label="操作" width="200">

@@ -8,6 +8,7 @@ import {
 import { ref } from 'vue'
 
 import {Plus} from '@element-plus/icons-vue'
+import axios from 'axios';
 //控制抽屉是否显示
 const visibleDrawer = ref(false)
 //添加表单数据模型
@@ -33,6 +34,8 @@ const user = ref([
     },
   
 ])
+
+
 
 
 
@@ -95,7 +98,7 @@ const onCurrentChange = (num) => {
     <!-- 抽屉 -->
     <el-drawer v-model="visibleDrawer" title="创建用户" direction="rtl" size="50%">
             <!-- 添加文章表单 -->
-            <el-form :model="newuser" label-width="100px" >
+            <el-form :model="newuser" label-width="100px">
                 <el-form-item label="用户名" >
                     <el-input v-model="newuser.id" placeholder="请输入用户名"></el-input>
                 </el-form-item>
@@ -120,8 +123,27 @@ const onCurrentChange = (num) => {
                     
                 </el-form-item>
                 <el-form-item>
-                    <el-button type="primary">创建</el-button>
-                    <el-button type="info">取消</el-button>
+                    <el-button type="primary" @click="
+                    if (newuser.password1 != newuser.password2) {
+                        console.log('密码bu');
+                    } else {
+                        let type = newuser.usertypeSelect == '企业'? 1: 0;
+                        axios({ method: 'POST',
+                                url: 'http://localhost:8080/user/register',
+                                data: {
+                                    userId: newuser.id,
+                                    password: newuser.password1,
+                                    userType: type
+                                }
+                            }).then(response=>{
+                                console.log(response.data)
+                                console.log('成功');
+                            }).catch(err => {
+                                console.log(err);
+                            });
+                    }
+                    ">创建</el-button>
+                    <el-button type="info" @click="newuser.id='';newuser.password1='';newuser.password2='';newuser.usertypeSelect=''">取消</el-button>
                 </el-form-item>
 
                 

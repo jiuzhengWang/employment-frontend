@@ -63,14 +63,14 @@ const onCurrentChange = (num) => {
     pageNum.value = num
 }
 
-let noticeResponsed = [];
+const noticeResponsed = ref([]);
 axios({
     method: 'GET',
-    url: 'http://localhost:8080/province/notice/getall'
+    url: 'http://localhost:8080/province/show-all-notice'
 }).then(response => {
     //console.log(JSON.stringify(response.data));
-    noticeResponsed = response.data;
-    //console.log(JSON.stringify(response.data));
+    noticeResponsed.value = response.data;
+    console.log(JSON.stringify(response.data));
 }).catch(err => {
     alert(err);
 });
@@ -98,9 +98,9 @@ axios({
         </template>
        
         <!-- 通知列表 -->
-        <el-table :data="noticeResponsed" style="width: 100%">
+        <el-table :data="noticeResponsed.value" style="width: 100%">
             <el-table-column label="标题" width="400" prop="title" ></el-table-column>
-            <el-table-column label="发布时间" prop="createTime"> </el-table-column>
+            <el-table-column label="发布时间" prop="released_time"> </el-table-column>
             <el-table-column label="操作" width="100">
                 <template #default="{ row }">
                     <!-- <el-button :icon="Edit" circle plain type="primary" > </el-button> -->
@@ -134,16 +134,23 @@ axios({
                     <el-button type="primary" @click="
                     axios({
                         method: 'POST',
-                        url: 'http://localhost:8080/province/notice/release',
+                        url: 'http://localhost:8080/province/publish-notice/1',
                         data: newnoticeModel
                     }).then(response => {
                         console.log(JSON.stringify(response.data));
+                        //弹出一个发布数据成功的提示
                     }).catch(err => {
                         alert(err);
                     });
                     
                     ">发布</el-button>
-                    <el-button type="info">重置</el-button>
+                    <el-button type="info" @click="
+                        newnoticeModel.content='';
+                        newnoticeModel.title='';
+                        newnoticeModel.state='';
+                        newnoticeModel.released_time='';
+                    
+                    ">重置</el-button>
                 </el-form-item>
             </el-form>
     </el-drawer>
